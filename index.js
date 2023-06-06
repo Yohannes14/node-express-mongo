@@ -3,6 +3,7 @@ const colors = require("colors");
 const { errorHandler } = require("./middleware/error");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
+const stuffRoutes = require("./routes/stuffRoutes");
 
 const port = process.env.PORT || 3000;
 
@@ -22,11 +23,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/products", require("./routes/productRoutes"));
-app.use(errorHandler);
+app.use("/api/stuff", stuffRoutes);
+// app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on ${port}`));
