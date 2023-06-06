@@ -4,6 +4,7 @@ const { errorHandler } = require("./middleware/error");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
 const stuffRoutes = require("./routes/stuffRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const port = process.env.PORT || 3000;
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/stuff", stuffRoutes);
+app.use("/api/auth", userRoutes);
 // app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on ${port}`));
