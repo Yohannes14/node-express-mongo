@@ -1,4 +1,5 @@
 const Thing = require("../models/thing");
+const fs = require("fs");
 
 const createThing = (req, res, next) => {
   // for image
@@ -90,17 +91,21 @@ const deleteThing = (req, res, next) => {
         .status(401)
         .json({ error: new Error("Unauthorized request!") });
     }
-    Thing.deleteOne({ _id: req.params.id })
-      .then(() => {
-        res.status(200).json({
-          message: "Deleted!",
+    // this is fs  to access to functions that allow you to modify file system
+    const filename = thing.imageUrl.split("/images/")[1];
+    fs.unlink("images/" + filename, () => {
+      Thing.deleteOne({ _id: req.params.id })
+        .then(() => {
+          res.status(200).json({
+            message: "Deleted!",
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            error: error,
+          });
         });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          error: error,
-        });
-      });
+    });
   });
 };
 
