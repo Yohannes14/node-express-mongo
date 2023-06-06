@@ -2,6 +2,7 @@ const express = require("express");
 const colors = require("colors");
 const { errorHandler } = require("./middleware/error");
 const connectDB = require("./config/db");
+const path = require("path");
 const dotenv = require("dotenv").config();
 const stuffRoutes = require("./routes/stuffRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/stuff", stuffRoutes);
 app.use("/api/auth", userRoutes);
